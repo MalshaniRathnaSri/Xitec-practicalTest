@@ -7,9 +7,13 @@ use App\Http\Controllers\Auth\SignoutController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\SidebarController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\AdminProfileController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
 Route::get('/Home',[FormController::class,'home'])->name('home');
@@ -31,4 +35,12 @@ Route::get('/myaccount',[SidebarController::class,'accountShow'])->name('myaccou
 Route::get('/prescription/upload',[PrescriptionController::class,'prescriptionUpload'])->name('prescription.show');
 Route::post('/prescription/upload',[PrescriptionController::class,'prescriptionStore'])->name('prescription.upload');
 
+//Admin Routes
+Route::get('/admin',[AdminController::class,'adminShow'])->name('admin.show');
+Route::get('/admin/registration',[RegistrationController::class,'showRegistrationForm'])->name('admin.registration');
+Route::post('admin/registration',[RegistrationController::class,'storeData']);
 
+Route::get('/admin/login',[AdminLoginController::class,'loginShow'])->name('admin.login');
+Route::post('/admin/login',[AdminLoginController::class,'adminLogin']);
+
+Route::get('/admin/profile',[AdminProfileController::class,'showProfile'])->name('admin.profile');
