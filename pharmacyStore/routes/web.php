@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\Auth\AdminSignoutController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,5 +43,7 @@ Route::post('admin/registration',[RegistrationController::class,'storeData']);
 
 Route::get('/admin/login',[AdminLoginController::class,'loginShow'])->name('admin.login');
 Route::post('/admin/login',[AdminLoginController::class,'adminLogin']);
+
+Route::post('/admin/logout',[AdminSignoutController::class,'logout'])->name('admin/logout');
 
 Route::get('/admin/profile',[AdminProfileController::class,'showProfile'])->name('admin.profile');

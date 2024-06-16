@@ -9,7 +9,7 @@
     <title>{{env ('APP_ADMIN_NAME')}}</title>
 </head>
 <body>
-    <div class="flex flex-col min-h-screen items-center justify-center">
+    <div class="flex flex-col mt-10 items-center justify-center">
         <div class="max-w-lg w-full border-2 border-black rounded-lg shadow-lg flex justify-center items-center flex-col">
         <h1 class="text-2xl font-bold mb-4">Login Form</h1>
         <form action="{{route ('admin.login') }}" method="POST">
@@ -33,6 +33,9 @@
                 <button type="submit" class="w-20 bg-black text-white p-2 rounded-md hover:bg-blue-600">Login</button>
             </div>
         </form>
+        <div>
+            <a href="{{route ('admin.registration')}}"><div class="font-bold">If you are s New Admin User Click Here....</div></a>
+        </div>
         </div>
     </div>
 </body>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PrescriptionModel;
+use App\Events\PrescriptionUpload;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 
 class PrescriptionController extends Controller
 {
@@ -12,6 +15,7 @@ class PrescriptionController extends Controller
     }
 
     public function prescriptionStore(Request $request){
+        try{
         $file = $request->file('prescription');
     
         $filename = time() . '_' . $file->getClientOriginalName();
@@ -26,7 +30,12 @@ class PrescriptionController extends Controller
         $prescription->deliveryTime = $request->input('deliveryTime');
         $prescription->save();
     
-        
+        event(new PrescriptionUpload($prescription));
         return redirect()->route('prescription.upload')->with('success', 'Prescription uploaded successfully');
-    }  
+    }
+        catch(\Exception $e){
+            return response()->json(['error'=>$e->getMessage()],500);
+        }
+    } 
+
 }
