@@ -20,7 +20,7 @@
                         <tr class="text-sm">
                             <td class="py-2 border border-gray-300 px-4">{{ $prescription->id }}</td>
                             <td class="border border-gray-300 px-4">{{ $prescription->patientName }}</td>
-                            <td class="border border-gray-300 px-4" id="status-{{ $prescription->id }}"></td>
+                            <td class="border border-gray-300 px-4" id="status-{{ $prescription->id }}">{{ $prescription->STATUS }}</td>
                             <td class="border border-gray-300 px-4">
                                 <div class="flex justify-center space-x-2">
                                     <button class="bg-blue-400 text-white px-2 py-1 w-32 rounded" onclick="updateStatus({{ $prescription->id }}, 'Mark As Done')">Mark As Done</button>
@@ -38,7 +38,31 @@
 
 <script>
 function updateStatus(prescriptionId, status) {
-    document.getElementById('status-' + prescriptionId).innerText = status;
+    console.log(`Updating status for Prescription ID: ${prescriptionId} to ${status}`);
+    
+    fetch('/admin/prescriptions/update-status', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            id: prescriptionId,
+            status: status
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Server Response:', data);
+        if (data.success) {
+            document.getElementById('status-' + prescriptionId).innerText = status;
+        } else {
+            alert('Failed to update status');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 </script>
 
