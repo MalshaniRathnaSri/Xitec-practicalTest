@@ -10,7 +10,7 @@ use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\AdminSidebarController;
 use App\Http\Controllers\Auth\AdminSignoutController;
 
 Route::get('/', function () {
@@ -46,4 +46,5 @@ Route::post('/admin/login',[AdminLoginController::class,'adminLogin']);
 
 Route::post('/admin/logout',[AdminSignoutController::class,'adminLogout'])->name('admin.logout');
 
-Route::get('/admin/profile',[AdminProfileController::class,'showProfile'])->name('admin.profile');
+Route::get('/admin/profile',[AdminSidebarController::class,'showProfile'])->name('admin.profile');
+Route::get('/admin/prescription/preview',[AdminSidebarController::class,'showPrescriptionPreview'])->name('admin.prescription.preview');

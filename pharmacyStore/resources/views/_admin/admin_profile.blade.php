@@ -1,7 +1,9 @@
 @extends('_admin.admin_layout')
 
 @section('content')
-<div class="custom_container"> 
+
+@include('_admin.admin_sidebar') 
+<div class="custom_container">
     <div>
         <div class="font-bold text-4xl justify-center">Admin Account</div>
         <div>
