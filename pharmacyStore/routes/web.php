@@ -44,6 +44,6 @@ Route::post('admin/registration',[RegistrationController::class,'storeData']);
 Route::get('/admin/login',[AdminLoginController::class,'loginShow'])->name('admin.login');
 Route::post('/admin/login',[AdminLoginController::class,'adminLogin']);
 
-Route::post('/admin/logout',[AdminSignoutController::class,'logout'])->name('admin/logout');
+Route::post('/admin/logout',[AdminSignoutController::class,'adminLogout'])->name('admin.logout');
 
 Route::get('/admin/profile',[AdminProfileController::class,'showProfile'])->name('admin.profile');

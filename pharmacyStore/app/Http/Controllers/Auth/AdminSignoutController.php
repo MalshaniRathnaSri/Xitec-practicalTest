@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class AdminSignoutController extends Controller
 {
     public function adminLogout(){
-        Auth::logout();
+        Auth::guard('admin')->logout();
 
         return redirect()->route('admin.show');
     }
