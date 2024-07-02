@@ -3,18 +3,12 @@
 @section('content')
 
 @include('_admin.admin_sidebar')
-<div class="admin-container"> 
+<div class="admin-container">
     <div class="justify-center">
         <div class="justify-center w-full">
             <div class="border border-blue-500 border-solid border-2 p-1 w-96 h-96">
                 <div>
                     <img src="{{ asset('upload/' . $prescription->imagePath) }}" alt="Preview Image" class="w-full h-full object-cover">
-                </div>
-                <div class="flex justify-center items-center mt-8 space-x-4">
-                    <div class="border border-blue-500 border-solid border-2 p-1 w-16 h-16"></div>
-                    <div class="border border-blue-500 border-solid border-2 p-1 w-16 h-16"></div>
-                    <div class="border border-blue-500 border-solid border-2 p-1 w-16 h-16"></div>
-                    <div class="border border-blue-500 border-solid border-2 p-1 w-16 h-16"></div>
                 </div>
             </div>
 
@@ -52,10 +46,10 @@
             </div>
             <div class="border-t border-blue-500 my-4"></div>
             <div class="flex justify-end mt-3 space-x-8">
-                <button onclick="calculateTotalAmount()" type="button" id="sendQuotationBtn" class="px-3 py-2 border border-gray-300 block w-36 h-10 whitespace-nowrap">Send Quotation</button>
+                <button type="button" id="sendQuotationBtn" class="px-3 py-2 border border-gray-300 block w-36 h-10 whitespace-nowrap">Send Quotation</button>
             </div>
         </div>
-    </div> 
+    </div>
     <script>
         function calculateTotalAmount() {
             var totalAmount = 0;
@@ -63,7 +57,7 @@
                 var amount = parseFloat(row.cells[2].textContent) || 0; 
                 totalAmount += amount;
             });
-    
+
             return totalAmount;
         }
 
@@ -85,7 +79,35 @@
         });
 
         document.getElementById('sendQuotationBtn').addEventListener('click', function() {
-            alert('Quotation sent successfully!');
+            var prescriptionId = {{ $prescription->id }};
+            var rows = document.querySelectorAll('#quotationTable tbody tr');
+            var data = [];
+
+            rows.forEach(function(row) {
+                var drug = row.cells[0].textContent;
+                var quantity = parseFloat(row.cells[1].textContent) || 0;
+                var amount = parseFloat(row.cells[2].textContent) || 0;
+                data.push({ drug, quantity, amount });
+            });
+
+            fetch('/prescription-details', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    prescription_id: prescriptionId,
+                    details: data
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Prescription details saved successfully');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
     </script>
 </div>

@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\AdminSidebarController;
 use App\Http\Controllers\Auth\AdminSignoutController;
 use App\Http\Controllers\AdminPrescriptionController;
+use App\Http\Controllers\AdminCalculationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,3 +56,5 @@ Route::post('/admin/prescriptions/update-status', [AdminPrescriptionController::
 
 Route::get('/admin/prescriptions/redirect-page/{id}', [AdminPrescriptionController::class, 'redirectPage'])->name('admin.redirect.page');
 Route::post('/admin/prescriptions/update-status', [AdminPrescriptionController::class, 'updateStatus']);
+
+Route::post('/prescription-details', [AdminCalculationController::class, 'store']);
