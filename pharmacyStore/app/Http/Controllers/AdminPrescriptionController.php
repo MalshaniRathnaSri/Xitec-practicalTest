@@ -19,8 +19,18 @@ class AdminPrescriptionController extends Controller
         if ($prescription) {
             $prescription->status = $request->status;
             $prescription->save();
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'id' => $prescription->id]);
         }
         return response()->json(['success' => false]);
     }
+
+    public function redirectPage($id)
+    {
+        $prescription = PrescriptionModel::find($id);
+        if (!$prescription) {
+            return redirect()->route('admin.prescriptions.index')->with('error', 'Prescription not found');
+        }
+        return view('_admin.admin_calculation', compact('prescription'));
+    }
+
 }

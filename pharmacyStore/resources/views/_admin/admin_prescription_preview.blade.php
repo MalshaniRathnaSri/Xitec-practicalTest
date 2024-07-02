@@ -37,33 +37,40 @@
 </div>
 
 <script>
-function updateStatus(prescriptionId, status) {
-    console.log(`Updating status for Prescription ID: ${prescriptionId} to ${status}`);
-    
-    fetch('/admin/prescriptions/update-status', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-            id: prescriptionId,
-            status: status
+    function updateStatus(prescriptionId, status) {
+        console.log(`Updating status for Prescription ID: ${prescriptionId} to ${status}`);
+        
+        fetch('/admin/prescriptions/update-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                id: prescriptionId,
+                status: status
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Server Response:', data);
-        if (data.success) {
-            document.getElementById('status-' + prescriptionId).innerText = status;
-        } else {
-            alert('Failed to update status');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-</script>
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server Response:', data);
+            if (data.success) {
+                document.getElementById('status-' + prescriptionId).innerText = status;
+                if (status === 'Pending') {
+                    window.location.href = `/admin/prescriptions/redirect-page/${prescriptionId}`; 
+                }
+            } else {
+                alert('Failed to update status');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
+    
+    
+    
+    
 
 @endsection

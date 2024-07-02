@@ -52,3 +52,6 @@ Route::get('/admin/prescription/preview',[AdminSidebarController::class,'showPre
 
 Route::get('/admin/prescriptions', [AdminPrescriptionController::class, 'index'])->name('admin.prescriptions.index');
 Route::post('/admin/prescriptions/update-status', [AdminPrescriptionController::class, 'updateStatus']);
+
+Route::get('/admin/prescriptions/redirect-page/{id}', [AdminPrescriptionController::class, 'redirectPage'])->name('admin.redirect.page');
+Route::post('/admin/prescriptions/update-status', [AdminPrescriptionController::class, 'updateStatus']);
